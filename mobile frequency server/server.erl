@@ -5,16 +5,18 @@ start() ->
     register(frequency, spawn(server, init, [])).
 
 init() ->
-    loop({get_freguencies(), []}).
+    AvailableFrequencies = get_freguencies(),
+    AllocatedFrequencies = [],
+    loop({AvailableFrequencies, AllocatedFrequencies}).
 
 get_freguencies() -> 
     [10, 11, 12, 13, 14, 15].
 
 allocate({[Freq|Free], Allocated}, Pid) -> {{Free, [{Freq, Pid}|Allocated]}, {ok, Freq}};
-    allocate({[], Allocated}, _Pid) -> {{[], Allocated}, {error, no_frequency}}.
+allocate({[], Allocated}, _Pid) -> {{[], Allocated}, {error, no_frequency}}.
 
 deallocate({Free, Allocated}, Freq) ->
-    NewAllocated=lists:keydelete(Freq, 1, Allocated),
+    NewAllocated = lists:keydelete(Freq, 1, Allocated),
     {[Freq|Free], NewAllocated}.
 
 loop(Frequencies) -> 
