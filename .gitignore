@@ -2,9 +2,7 @@
 ls
 otp
 sevenlan
-temperature_converter.beam
 temperature_converter.erl
-tut.beam
 tut.erl
-useless.beam
+*.beam
 useless.erl
